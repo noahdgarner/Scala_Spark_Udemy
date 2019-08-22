@@ -7,9 +7,6 @@ import scala.collection.mutable.ArrayBuffer
 import org.apache.log4j.{Level, Logger}
 
 object RDDPractice {
-  //We will have this line at the top of every Spark application so it can find the
-  //  * Hadoop binaries
-  System.setProperty("hadoop.home.dir", "C:\\winutil");
 
   //driver program: The Spark Application's main method called the Driver
   def main(args: Array[String]) {
@@ -20,7 +17,7 @@ object RDDPractice {
     val conf = new SparkConf().setMaster("local[*]").setAppName("Word Counts").set("spark.cores", "8") //init a Spark configuration, setting master and appname
     val sc = new SparkContext(conf) //init our sc, sparkcontext
     //Do some operations with our sparkContext
-    val linesTextfileRDD = sc.textFile("src\\main\\resources\\shakespeare") //filter lines
+    val linesTextfileRDD = sc.textFile("src/main/resources/shakespeare.txt") //filter lines
     //the following is a transformation and then action (to 1 val) because we filter data that matches a predicate, this predicate is and
     println(linesTextfileRDD.filter(_.contains("and")).count + " is the number of lines that contain 'and' ")
     // _.contains("and") is a predicate function, for each element, if the element passes the predicate function
@@ -56,15 +53,15 @@ object RDDPractice {
     val sumOfData = distDataRDD.reduce(_ + _) //action to sum all the numbers in distDataRDD
     println(sumOfData + " is the sum of all values in distData")
     //e.g. 3, textFile again, good example of how we can debug.
-    val shakespeareTextPath = "src\\main\\resources\\shakespeare"
+    val shakespeareTextPath = "src/main/resources/shakespeare.txt"
     val linesTextfileExample2 = sc.textFile(shakespeareTextPath)
     //Remember lineLength here, is computed lazily, meaning not till it needs to be
     val lineLengths = linesTextfileExample2.map(_.length) // map each line of strings  to an integer(its length), note:=>another RDD of only integers
     val totalLength = lineLengths.reduce(_ + _) //since we reduce here, we get a singly computed value of meaning
     println(totalLength + " total length if all the strings in the file were lined up 'counts all the chars'")
 
-    if (!Files.exists(Paths.get("src\\main\\resources\\lineLengths"))) //use this, haha nice
-      lineLengths.saveAsTextFile("src\\main\\resources\\lineLengths")
+    if (!Files.exists(Paths.get("src/main/resources/lineLengths"))) //use this, haha nice
+      lineLengths.saveAsTextFile("src/main/resources/lineLengths")
 
     //Working with key value pairs
     //This reduceByKey operation on KV pairs to count how many times each line of text occurs in a file
@@ -86,13 +83,13 @@ object RDDPractice {
     val backToMorePairsRDD = unionPairsRDD.subtract(evenMorePairsRDD)
     backToMorePairsRDD.foreach(println) //gives us back our morePairsRDD from before the union
 
-    val morePairsPath = "src\\main\\resources\\MorePairsRDD"
+    val morePairsPath = "src/main/resources/MorePairsRDD"
     if (!Files.exists(Paths.get(morePairsPath))) //simply run only if relative path doesnt exist
       backToMorePairsRDD.saveAsTextFile(morePairsPath)
     //remember, 2 \\ cause delimeter
     //if we want to make sure this all goes to one file, just save the RDD as an Array
     //OR we can be super cool and use coalesce!!
-    val coalescedFilePath = "src\\main\\resources\\CoalescedFile"
+    val coalescedFilePath = "src/main/resources/CoalescedFile"
     if (!Files.exists(Paths.get(coalescedFilePath)))
       backToMorePairsRDD.coalesce(1, true).saveAsTextFile(coalescedFilePath)
 
@@ -108,28 +105,27 @@ object RDDPractice {
     println("Element 1:" + fuseTest(0) + "\nElement 2:" + fuseTest(1))
 
 
+    //research again its been a year
     val curried = linesParallelizeRDD.aggregate(0)((x, _) => x + 1, _ + _)
     println(curried)
-    //same as above, notice with currying we can set it equal to a variable,
 
 
-    //scala for loop
     for (i <- 0 to 10)
       println(i)
 
-    //mutable array stuff
+
     val mutableArray = ArrayBuffer[Integer](1, 2, 3, 4, 5)
     mutableArray.insert(5, 6)
-    //for loop iteration eg
+
     for (i <- 0 to mutableArray.size - 1)
       println(mutableArray(i))
-    //immutable array in scala
+
+    //print each
     val immutableArray = Array(1, 2, 3, 4, 5)
-    //print data in array
-    immutableArray.foreach(println)
+    immutableArray.foreach(println);
     //access data in array
     immutableArray(0);
-    //eg while loop
+
     var x = 5;
     while (x > 0) {
       println("hi")
@@ -141,13 +137,10 @@ object RDDPractice {
     for (e <- a)
       print(e)
 
-    //eg predicates, ie skip explicit returns
-    //def isEven(i: Int): Boolean = return i%2 == 0
-    //same
-    //  isEven(i: Int): Boolean = i%2 == 0
-    //same
+    //ie. a predicate
     def isEven(i: Int) = i % 2 == 0
 
+    //pass the predicate and return what qualifies
     val filteredList = List(1, 2, 3, 4, 5, 6, 7, 8, 9).filter(isEven)
     println(filteredList);
   }

@@ -15,9 +15,10 @@ object Test {
     val conf = new SparkConf().setMaster("local[*]").setAppName("Word Counts").set("spark.cores", "8") //init a Spark configuration, setting master and appname
     val sc = new SparkContext(conf)
 
-    val linesTextfileRDD = sc.textFile("ScalaRDDPractice\\src\\main\\resources\\shakespeare.txt") //filter lines
+    val linesTextfileRDD = sc.textFile("./src/main/resources/shakespeare.txt") //filter lines
     val andLines = linesTextfileRDD.filter(_.contains("and"))
 
-    andLines.count()
+    //bugs out currently, but why?
+    println(andLines.count());
   }
 }
