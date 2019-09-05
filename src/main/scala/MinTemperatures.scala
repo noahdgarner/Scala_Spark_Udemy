@@ -45,7 +45,7 @@ object MinTemperatures {
 
     // Reduce by stationID retaining the minimum temperature found
     val minTempsByStation = stationTemps
-      .reduceByKey( (x,y) => max(x,y))
+      .reduceByKey( (x,y) => math.max(x,y))
 
     //sort by the second val of tuple (temperature)
     val sortedMinTemps = minTempsByStation
