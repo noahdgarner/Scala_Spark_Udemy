@@ -37,7 +37,7 @@ object MinTemperatures {
 
     // Filter out all but TMIN entries (transform, new RDD)
     val minTemps = parsedLines
-      .filter(x => x._2 == "PRCP")
+      .filter(x => x._2 == "TMIN")
 
     // Convert to (stationID, temperature)
     val stationTemps = minTemps
