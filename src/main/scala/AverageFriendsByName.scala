@@ -19,9 +19,9 @@ object AverageFriendsByName {
     //enums are caps!
     Logger.getLogger("org").setLevel(Level.ERROR)
     //local is lowercase l. damn that is particular as hell
-    val sparkContext = new SparkContext("local[*]", "FriendsByName")
+    val sc = new SparkContext("local[*]", "FriendsByName")
 
-    val fakeFriendsRDD = sparkContext.textFile("src/main/resources/RDDFiles/fakefriends.csv")
+    val fakeFriendsRDD = sc.textFile("src/main/resources/RDDFiles/fakefriends.csv")
     //pass each line to predicate parseLine returning tuple of data we want
     val friendsCounterRDD = fakeFriendsRDD
       .map(x => parseLine(x))
