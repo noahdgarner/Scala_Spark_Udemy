@@ -24,11 +24,11 @@ object PurchaseByCustomer {
     val input = sc.textFile(s"src/main/resources/RDDFiles/$textFile")
 
     //write simple script that adds up the amount spent by each customer
-    //the customer ID is field 0 the price is field 2, todo tomorrow
+    //the customer ID is field 0 the price is field 2,
 
     //keep only customerId and Purchase Amt (id, purchase)
     val parsedLines = input
-      .map(x => parseLine(x))
+      .map(parseLine)
 
     //add all values with similar keys (id, purchaseTotal)
     val purchaseTotals = parsedLines
@@ -43,8 +43,6 @@ object PurchaseByCustomer {
       .take(20)
 
     collectedData.foreach(println)
-
-
 
   }
 

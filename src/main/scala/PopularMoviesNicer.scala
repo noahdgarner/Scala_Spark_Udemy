@@ -40,7 +40,7 @@ object PopularMoviesNicer {
   }
 
   def main(args: Array[String]) {
-   
+
     // Set the log level to only print errors
     Logger
       .getLogger("org")
@@ -51,6 +51,7 @@ object PopularMoviesNicer {
     
     // Create a broadcast variable of our ID -> movie name map
     // Purpose: To not traverse network more than once
+    //sends the information to each node
     // Note: the loadMovieNames function executes first
     // Then the movieNames Map is sent to each Node on cluster
     val nameDict = sc.broadcast(loadMovieNames)

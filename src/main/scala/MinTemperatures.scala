@@ -19,6 +19,7 @@ object MinTemperatures {
     (stationID, entryType, temperature)
   }
 
+
   /** Our main function where the action happens */
   def main(args: Array[String]) {
 
