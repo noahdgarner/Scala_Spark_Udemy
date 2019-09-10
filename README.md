@@ -30,4 +30,7 @@ and complicatedness (not a word)
 3. calling foreach on a set of data brought to driver program
 ###PopularMoviesNicer.scala
 1. Broadcast variables. Learned we can send a function to cluster which can have a map of the data we will eventually want to use. Later in program we "Fold in" the movie names from the Broadcast variable into the RDD we've manipulated about.
-2. 
+2. Chaining parameter to the map method. Notice we can Split, pull out a specific value, and map it to a number in 1 string
+3. Creating a scala Map. Notice the syntax, variable type declared 
+4. this syntax for a map movieNames += (fields(0).toInt -> fields(1))
+

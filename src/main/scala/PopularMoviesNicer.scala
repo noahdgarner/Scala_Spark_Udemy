@@ -14,7 +14,8 @@ import scala.io.{Codec, Source}
   * over a set of thousands upon thousands of movies.*/
 object PopularMoviesNicer {
   
-  /** Load up a Map of movie IDs to movie names. */
+  /** Load up a Map of movie IDs to movie names.
+    * Remember this is called before it is sent to the cluster */
   def loadMovieNames() : Map[Int, String] = {
 
     // Handle character encoding issues:
@@ -28,7 +29,7 @@ object PopularMoviesNicer {
     
      val lines = Source.fromFile("src/main/resources/ml-100k/u.item").getLines()
      for (line <- lines) {
-       var fields = line.split('|')
+       val fields = line.split('|')
        if (fields.length > 1) {
          //interesting mapping syntax (id, movieName)
         movieNames += (fields(0).toInt -> fields(1))
@@ -41,13 +42,17 @@ object PopularMoviesNicer {
   def main(args: Array[String]) {
    
     // Set the log level to only print errors
-    Logger.getLogger("org").setLevel(Level.ERROR)
+    Logger
+      .getLogger("org")
+      .setLevel(Level.ERROR)
     
      // Create a SparkContext using every core of the local machine
     val sc = new SparkContext("local[*]", "PopularMoviesNicer")  
     
     // Create a broadcast variable of our ID -> movie name map
     // Purpose: To not traverse network more than once
+    // Note: the loadMovieNames function executes first
+    // Then the movieNames Map is sent to each Node on cluster
     val nameDict = sc.broadcast(loadMovieNames)
     
     // Read in each rating line
@@ -66,11 +71,13 @@ object PopularMoviesNicer {
       .sortBy(_._2, false)
     
     // Fold in the movie names from the broadcast variable
-    // note our movies tuple is (movieID, counts)
+    // note our sortedMovies tuple is (movieID, counts)
     val sortedMoviesWithNames = sortedMovies
       .map( x  => (nameDict.value(x._1), x._2))
 
-    val results = sortedMoviesWithNames.take(10)
+
+    val results = sortedMoviesWithNames
+      .take(10)
     
     results.foreach(println)
   }
