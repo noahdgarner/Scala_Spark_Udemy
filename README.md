@@ -33,4 +33,9 @@ and complicatedness (not a word)
 2. Chaining parameter to the map method. Notice we can Split, pull out a specific value, and map it to a number in 1 string
 3. Creating a scala Map. Notice the syntax, variable type declared 
 4. this syntax for a map movieNames += (fields(0).toInt -> fields(1))
-
+###PopularSuperHeroes.scala
+1. First semi challenge I gave myself by implementing most without help
+2. LEarned about scala Option[] syntax, but didn't implement saw no need
+3. Utilized Broadcast variable with map data structure
+4. Realized .take(1) still returns an array so we needed to access data with take(1)(0)._1
+5. Realized .first is much easier to deal with after a sortBy for getting min or max data
