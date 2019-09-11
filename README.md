@@ -39,3 +39,6 @@ and complicatedness (not a word)
 3. Utilized Broadcast variable with map data structure
 4. Realized .take(1) still returns an array so we needed to access data with take(1)(0)._1
 5. Realized .first is much easier to deal with after a sortBy for getting min or max data
+###Degrees of Separation
+1. Learned about the mutable array syntax for Scala, and converting to immutable with .toArray syntax
+2. Graphx lib: he says we can do this section of the class with Graphx library a lot more efficiently, way less code, but he wants us to start with bare bones, "first principles" so to speak

@@ -1,20 +1,19 @@
 import java.nio.charset.CodingErrorAction
-
 import org.apache.log4j._
 import org.apache.spark._
-
 import scala.io.{Codec, Source}
 
 object PopularSuperHeroes {
 
+  //now this is a snazy function!
   def parseLine(line: String): (Int, Int) = {
-      val heroId = line.split(" ")(0).toInt
-      val numFriends = line.split(" ").length - 1
-      (heroId, numFriends)
+    //split on any white spaces
+    val fields = line.split("\\s")
+    (fields(0).toInt, fields.length - 1)
   }
 
   //method to load superfriends into associative array (map)
-  def loadSuperFriends(): Map[Int, String] ={
+  def loadSuperFriends(): Map[Int, String] = {
     val fileName = "Marvel-names.txt"
     // Handle character encoding issues for when on cluster:
     implicit val codec = Codec("UTF-8")
@@ -22,14 +21,14 @@ object PopularSuperHeroes {
     codec.onUnmappableCharacter(CodingErrorAction.REPLACE)
 
     //init our Map
-    var superHeroesMap:Map[Int, String] = Map()
+    var superHeroesMap: Map[Int, String] = Map()
     //grab file data
     val superHeroDataLines = Source.fromFile(s"src/main/resources/RDDFiles/$fileName").getLines()
     //loop through lines, keep what we need
     for (line <- superHeroDataLines) {
       val fields = line.split("\"")
-        if (fields.length > 1) {
-          superHeroesMap += (fields(0).trim.toInt -> fields(1))
+      if (fields.length > 1) {
+        superHeroesMap += (fields(0).trim.toInt -> fields(1))
       }
     }
     //map of the form (heroId(Int), hero Name(String))
@@ -37,7 +36,7 @@ object PopularSuperHeroes {
   }
 
 
-  def main(args:Array[String])={
+  def main(args: Array[String]) = {
 
     Logger
       .getLogger("org")
@@ -58,7 +57,7 @@ object PopularSuperHeroes {
 
     //tuple is of the form (heroId(Int), numFriends(Int))
     val heroOccurancesByKey = heroFriends
-      .reduceByKey((x,y) => (x+y))
+      .reduceByKey((x, y) => (x + y))
 
     //tuple of form (heroId(Int), numFriends(Int)) reduced
     val heroWithMaxFriends = heroOccurancesByKey
