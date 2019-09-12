@@ -44,7 +44,7 @@ object PopularSuperHeroes {
 
     val sc = new SparkContext("local[*]", "PopularSuperHeroes")
 
-    //We've loaded the data, now we need to broadcast
+    //We've loaded the data, now we need to broadcast to each Node
     //map of the form (heroId(Int), hero Name(String))
     val superHeroMapCast = sc.broadcast(loadSuperFriends)
     //load our textFile superhero graph

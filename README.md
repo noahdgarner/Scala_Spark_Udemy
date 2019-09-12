@@ -39,6 +39,17 @@ and complicatedness (not a word)
 3. Utilized Broadcast variable with map data structure
 4. Realized .take(1) still returns an array so we needed to access data with take(1)(0)._1
 5. Realized .first is much easier to deal with after a sortBy for getting min or max data
-###Degrees of Separation
+###Degrees of Separation (1st Serious Spark Program)
 1. Learned about the mutable array syntax for Scala, and converting to immutable with .toArray syntax
 2. Graphx lib: he says we can do this section of the class with Graphx library a lot more efficiently, way less code, but he wants us to start with bare bones, "first principles" so to speak
+3. Learned Several Scala Syntaxes. 1. Creating own types. Say this with passing user defined types to functions to reduce verboseness.
+4. Learned about Scala Option /Some/ None pattern. Used with Accumulator
+5. Learned we can create an accumulator as a global variable to track if an event occurred on the cluster, such as locating a Hero. For an accumulator to be incremented, an action such as .count() must occur in the driver
+6. Learned of the ++= syntax for concatenating 2 arrays
+7. Very complicated for first grasp, but will get used to it
+###Movie Similarities
+1. First look at chaining map function to parseLine, and convert to a tuple of tuples
+2. Used a join operator to get all combinations of an RDD with itself
+3. Used filter after join to get rid of duplicates
+4. Used groupByKey, new term to go from (K,V) -> (K, Iterable<V>)
+5. 
