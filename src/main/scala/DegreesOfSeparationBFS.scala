@@ -1,5 +1,4 @@
 import org.apache.spark._
-import org.apache.spark.SparkContext._
 import org.apache.spark.rdd._
 import org.apache.spark.util.LongAccumulator
 import org.apache.log4j._

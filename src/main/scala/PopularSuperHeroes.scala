@@ -53,7 +53,7 @@ object PopularSuperHeroes {
     //first, lets count each line, associate first val as key, second as string
     //tuple is an RDD of (Strings)
     val heroFriends = superHeroGraph
-      .map(x => parseLine(x))
+      .map(parseLine)
 
     //tuple is of the form (heroId(Int), numFriends(Int))
     val heroOccurancesByKey = heroFriends

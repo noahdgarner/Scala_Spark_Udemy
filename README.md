@@ -35,10 +35,10 @@ and complicatedness (not a word)
 4. this syntax for a map movieNames += (fields(0).toInt -> fields(1))
 ###PopularSuperHeroes.scala
 1. First semi challenge I gave myself by implementing most without help
-2. LEarned about scala Option[] syntax, but didn't implement saw no need
+2. Learned about scala Option[] syntax, but didn't implement saw no need
 3. Utilized Broadcast variable with map data structure
 4. Realized .take(1) still returns an array so we needed to access data with take(1)(0)._1
-5. Realized .first is much easier to deal with after a sortBy for getting min or max data
+5. Realized .first is much easier to deal with after a sortBy for getting min or max data, implements take for us
 ###Degrees of Separation (1st Serious Spark Program)
 1. Learned about the mutable array syntax for Scala, and converting to immutable with .toArray syntax
 2. Graphx lib: he says we can do this section of the class with Graphx library a lot more efficiently, way less code, but he wants us to start with bare bones, "first principles" so to speak
@@ -52,4 +52,35 @@ and complicatedness (not a word)
 2. Used a join operator to get all combinations of an RDD with itself
 3. Used filter after join to get rid of duplicates
 4. Used groupByKey, new term to go from (K,V) -> (K, Iterable<V>)
-5. 
+5. This was item based collaborative filtering
+6. Worked with Spark-submit and sbt
+###Movie Similarities 1M
+1. Here all we did was learn about partitioning per # executors before doing a massive xform like groubByKey or reduceByKey
+2. Learned about AWS EMR cluster, how the Yarn Hadoop is separate from MR, etc.
+###SparkSQL
+1. Great section introducing us to DataFrames
+2. Using SparkSession instead of Context, but using Context to load initial csv file
+3. Very great use for case classes in Scala, aka creating an RDD of Person objects, and converting that to a DataSet, and converting that to a DataFrame
+4. DataSet created with .toDS, and we used printSchema to show what it looked like
+5. We used .sql("some query") to query our DataSet and save a DataFrame
+6. Learned that the method .createOrReplaceTempView creates a View with a name separate from the actual Dataset. The View is a Dataframe
+    ie when we select from the View, that val wil lcontain a Dataframe
+7. Learned we can convert from a Dataset[] back to an RDD by calling .rrd SIMPLE!
+###Dataframes
+1. Learning we can call methods directly on our Dataset such as select to get Dataframes from DataSet!!! Soo cool
+2. Observe the importance of Caching for debugging / testing since we use .show 5 times (5 actions)OHHH
+3. Understood that .getOrCreate must be present with SparkSession, creates new, or pulls existing one
+4. All sql methods select, groupBy, show become methods
+###PopularMovies(DataSets Version)
+1. E.g. of How we can frame problem with Datasets for a faster, more efficient, elegant solution
+2. Okay Okay very interesting. He instantiated an object in the map method. WOW That is so cool. Don't think PYthon can do that...
+3. Nope, he defintely defined a movie case class.
+###Create A Spark Script with Datasets from Spark script of RDDs Part 1
+1. Learned that when working with Datasets, your mapper becomes an object creator, created above def's as a "final case class"
+2. Found that I could not remember the syntax for inserting objects into a scala map.
+3 This was with .sql syntax. We want to use 
+###Create A Spark Script with Datasets from Spark script of RDDs Part 2
+1. See DataFrames Object script for examples
+2. Going to create my own DataSet and practice manips with log files from buganizer
+3. So far I have figured out how to convert from a NDJSON (Newline Delimited JSON) to an RDD of type ROW, and converted that using a mapper to an RDD of Objects to convert to a DataSet!
+4. Wanted to do this because Datasets are much more powerful

@@ -12,7 +12,7 @@ import scala.io.{Codec, Source}
   * E.G. We combined unnamed ratings and ids with
   * ids and movie names
   * over a set of thousands upon thousands of movies.*/
-object PopularMoviesNicer {
+object PopularMovies {
   
   /** Load up a Map of movie IDs to movie names.
     * Remember this is called before it is sent to the cluster */
@@ -30,13 +30,14 @@ object PopularMoviesNicer {
      val lines = Source.fromFile("src/main/resources/ml-100k/u.item").getLines()
      for (line <- lines) {
        val fields = line.split('|')
+       //checking if the line being looked at contains valid data
        if (fields.length > 1) {
          //interesting mapping syntax (id, movieName)
         movieNames += (fields(0).toInt -> fields(1))
        }
      }
-     //tuple type (movieId, movieName)
-     return movieNames
+     //map type [movieId => movieName] accessed K,V
+     movieNames
   }
 
   def main(args: Array[String]) {
@@ -54,10 +55,12 @@ object PopularMoviesNicer {
     //sends the information to each node
     // Note: the loadMovieNames function executes first
     // Then the movieNames Map is sent to each Node on cluster
-    val nameDict = sc.broadcast(loadMovieNames)
+    val nameDict = sc
+      .broadcast(loadMovieNames)
     
     // Read in each rating line
-    val lines = sc.textFile("src/main/resources/ml-100k/u.data")
+    val lines = sc
+      .textFile("src/main/resources/ml-100k/u.data")
     
     // Map to (movieID, 1) tuples
     val movies = lines

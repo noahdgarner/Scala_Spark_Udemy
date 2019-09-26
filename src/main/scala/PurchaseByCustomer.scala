@@ -12,7 +12,6 @@ object PurchaseByCustomer {
     (custId, purchaseAmt)
   }
 
-
   def main(args: Array[String]):Unit = {
     Logger.getLogger("org").setLevel(Level.ERROR)
 
